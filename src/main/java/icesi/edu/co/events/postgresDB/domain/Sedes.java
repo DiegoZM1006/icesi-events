@@ -2,7 +2,15 @@ package icesi.edu.co.events.postgresDB.domain;
 
 import icesi.edu.co.events.postgresDB.domain.Ciudades;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "sedes", schema = "eventos")
 public class Sedes {

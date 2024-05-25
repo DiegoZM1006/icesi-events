@@ -15,22 +15,27 @@ public class Eventos {
     @Id
     private Integer id;
     private String titulo;
+    private String[] categoria;
     private String descripcion;
     private LocalDate fecha;
+    private String estado;
 
     private LugarDelEvento lugarDelEvento;
 
     private  List<Asistentes> asistentes;
 
+    private List<Comentarios> comentarios;
+
     public Eventos() {
     }
 
-    public Eventos(Integer id, String titulo, String descripcion, LocalDate fecha, LugarDelEvento lugarDelEvento, List<Asistentes> asistentes) {
+    public Eventos(Integer id, String titulo, String descripcion, LocalDate fecha, LugarDelEvento lugarDelEvento, List<Asistentes> asistentes, String estado, List<Comentarios> comentarios) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.lugarDelEvento = lugarDelEvento;
         this.asistentes = asistentes;
+        this.comentarios = comentarios;
     }
 }

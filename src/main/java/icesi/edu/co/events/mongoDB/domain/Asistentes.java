@@ -1,9 +1,11 @@
 package icesi.edu.co.events.mongoDB.domain;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 
+
+@Data
 public class Asistentes {
 
     @Id
@@ -14,6 +16,7 @@ public class Asistentes {
     private String tipoRelacion;
     private String email;
 
+    private Ciudades ciudad;
 
 
     public Asistentes() {

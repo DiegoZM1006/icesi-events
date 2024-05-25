@@ -1,14 +1,18 @@
 package icesi.edu.co.events.postgresDB.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tipos_contratacion", schema = "eventos")
-@Data
-@NoArgsConstructor
 public class TipoContratacion {
 
     @Id

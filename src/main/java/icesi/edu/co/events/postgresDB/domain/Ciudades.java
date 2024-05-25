@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "ciudades", schema = "eventos")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Ciudades {
 
     @Id

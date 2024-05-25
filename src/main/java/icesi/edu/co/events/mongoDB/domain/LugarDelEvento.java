@@ -1,16 +1,19 @@
 package icesi.edu.co.events.mongoDB.domain;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-
+@Data
 public class LugarDelEvento {
     @Id
     private Integer id;
     private String name;
     private String direccion;
     private String city;
-    
+
+
+    public LugarDelEvento() {
+    }
 
     public LugarDelEvento(Integer id, String name, String direccion, String city) {
         this.id = id;
