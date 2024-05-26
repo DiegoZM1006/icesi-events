@@ -4,13 +4,12 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 
-
 @Data
-public class Asistentes {
+public class Participantes {
 
     @Id
-    private Integer id;
-    private String identificador;
+    private String id;
+    private String rol;
     private String nombreUsuario;
     private String nombreCompleto;
     private String tipoRelacion;
@@ -19,12 +18,11 @@ public class Asistentes {
     private Ciudades ciudad;
 
 
-    public Asistentes() {
+    public Participantes() {
     }
 
-    public Asistentes(Integer id, String identificador, String nombreUsuario, String nombreCompleto, String tipoRelacion, String email) {
+    public Participantes(String id, String nombreUsuario, String nombreCompleto, String tipoRelacion, String email) {
         this.id = id;
-        this.identificador = identificador;
         this.nombreUsuario = nombreUsuario;
         this.nombreCompleto = nombreCompleto;
         this.tipoRelacion = tipoRelacion;

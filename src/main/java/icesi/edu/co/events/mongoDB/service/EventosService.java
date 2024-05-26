@@ -1,6 +1,6 @@
 package icesi.edu.co.events.mongoDB.service;
 
-import icesi.edu.co.events.mongoDB.domain.Asistentes;
+import icesi.edu.co.events.mongoDB.domain.Participantes;
 import icesi.edu.co.events.mongoDB.domain.Ciudades;
 import icesi.edu.co.events.mongoDB.domain.Eventos;
 import icesi.edu.co.events.mongoDB.repository.EventosRepository;
@@ -27,12 +27,11 @@ public class EventosService {
         eventToUpdate.setTitulo(events.getTitulo());
         eventToUpdate.setCategoria(events.getCategoria());
         eventToUpdate.setDescripcion(events.getDescripcion());
-        List<Asistentes> asistentesList = new ArrayList<>();
-        for (Asistentes asistente : events.getAsistentes()) {
-            Asistentes saveAsistente = new Asistentes();
+        List<Participantes> asistentesList = new ArrayList<>();
+        for (Participantes asistente : events.getParticipantes()) {
+            Participantes saveAsistente = new Participantes();
             Ciudades saveCiudad = new Ciudades();
             saveAsistente.setId(asistente.getId());
-            saveAsistente.setIdentificador(asistente.getIdentificador());
             saveAsistente.setNombreUsuario(asistente.getNombreUsuario());
             saveAsistente.setNombreCompleto(asistente.getNombreCompleto());
             saveAsistente.setTipoRelacion(asistente.getTipoRelacion());
@@ -43,7 +42,7 @@ public class EventosService {
             saveAsistente.setCiudad(saveCiudad);
             asistentesList.add(saveAsistente);
         }
-        eventToUpdate.setAsistentes(asistentesList);
+        eventToUpdate.setParticipantes(asistentesList);
         eventToUpdate.setLugarDelEvento(events.getLugarDelEvento());
         eventToUpdate.setComentarios(events.getComentarios());
         return eventosRepository.save(events);

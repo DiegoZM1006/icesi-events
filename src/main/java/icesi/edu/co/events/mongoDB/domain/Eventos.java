@@ -18,24 +18,28 @@ public class Eventos {
     private String[] categoria;
     private String descripcion;
     private LocalDate fecha;
-    private String estado;
+    private Boolean estado;
 
     private LugarDelEvento lugarDelEvento;
 
-    private  List<Asistentes> asistentes;
+    private  List<Participantes> participantes;
 
     private List<Comentarios> comentarios;
+
+    private List<Integer> facultades;
+
+    private List<Integer> programas;
 
     public Eventos() {
     }
 
-    public Eventos(Integer id, String titulo, String descripcion, LocalDate fecha, LugarDelEvento lugarDelEvento, List<Asistentes> asistentes, String estado, List<Comentarios> comentarios) {
+    public Eventos(Integer id, String titulo, String descripcion, LocalDate fecha, LugarDelEvento lugarDelEvento, List<Participantes> asistentes, String estado, List<Comentarios> comentarios) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.lugarDelEvento = lugarDelEvento;
-        this.asistentes = asistentes;
+        this.participantes = asistentes;
         this.comentarios = comentarios;
     }
 }

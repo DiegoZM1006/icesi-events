@@ -26,8 +26,11 @@ public class Facultades {
     @Column(name = "nro_telefono")
     private String nroTelefono;
 
-    @OneToOne
+    /*@OneToOne
     @JoinColumn(name = "id_decano", unique = true)
-    private Empleados decano;
+    private Empleados decano;*/
+
+    @Column(name = "id_decano")
+    private Integer id_decano;
 
 }
