@@ -81,14 +81,16 @@ public class EventosController {
     }
 
     @PostMapping(value = "getEvents/{id}")
-    public ResponseEntity<?> getEventById(@PathVariable("id") String id){
+    public ResponseEntity<?> getEventByIdEvent(@PathVariable("id") String id){
         List<Eventos> eventos = eventsRepository.findAll();
         List<Eventos> eventosFiltered = new ArrayList<>();
 
         for (Eventos evento : eventos) {
-            for (Participantes idUser : evento.getParticipantes()) {
-                if (idUser.getId() == id) {
-                    eventosFiltered.add(evento);
+            if(evento.getParticipantes() != null){
+                for (Participantes idUser : evento.getParticipantes()) {
+                    if (idUser.getUsuario().getId().equals(id)) {
+                        eventosFiltered.add(evento);
+                    }
                 }
             }
         }
@@ -126,7 +128,7 @@ public class EventosController {
     @PostMapping("saveEmpleado/{nombreusuario}/{password}")
    public ResponseEntity<?> saveEmpleado(@PathVariable("nombreusuario") String nombreusuario, @RequestBody Empleados empleado, @PathVariable("password") String password){
         Usuarios newUsuario= new Usuarios();
-        newUsuario.setId(Integer.parseInt(empleado.getIdentificacion()));
+        newUsuario.setId(empleado.getIdentificacion());
         newUsuario.setNombre(nombreusuario);
        newUsuario.setPassword(password);
         newUsuario.setRol("asistente");
@@ -141,10 +143,6 @@ public class EventosController {
 
        return ResponseEntity.ok(newUsuario);
     }
-
-
-
-
 
 
 
