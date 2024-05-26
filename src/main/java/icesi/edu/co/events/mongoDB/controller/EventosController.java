@@ -4,10 +4,13 @@ import icesi.edu.co.events.mongoDB.domain.Participantes;
 import icesi.edu.co.events.mongoDB.domain.Eventos;
 import icesi.edu.co.events.mongoDB.repository.EventosRepository;
 import icesi.edu.co.events.mongoDB.service.EventosService;
+import icesi.edu.co.events.postgresDB.domain.Ciudades;
 import icesi.edu.co.events.postgresDB.domain.Controller.FacultadesController;
 import icesi.edu.co.events.postgresDB.domain.Empleados;
 import icesi.edu.co.events.postgresDB.domain.Facultades;
+import icesi.edu.co.events.postgresDB.domain.Usuarios;
 import icesi.edu.co.events.postgresDB.domain.repository.EmpleadosRepository;
+import icesi.edu.co.events.postgresDB.domain.repository.UsuariosRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +25,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("eventos")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173/")
 public class EventosController {
 
     private final EventosRepository eventsRepository;
     private final EventosService eventService;
     private final EmpleadosRepository empleadosRepository;
+    private final UsuariosRepository usuariosRepository;
 
 
     @PostMapping(value = "saveEvents")
@@ -40,6 +45,21 @@ public class EventosController {
         saveEvents.setLugarDelEvento(events.getLugarDelEvento());
         saveEvents.setComentarios(events.getComentarios());
         saveEvents.setFacultades(events.getFacultades());
+        List<Participantes> participantes = new ArrayList<>();
+        if (events.getParticipantes() != null) {
+            for (Participantes participante : events.getParticipantes()) {
+                Optional<Usuarios> searchUser = usuariosRepository.findById(participante.getId());
+                if (searchUser.isPresent()) {
+                    Participantes participanteSave = new Participantes();
+                    participanteSave.setId(String.valueOf(searchUser.get().getId()));
+                    participanteSave.setRole(participante.getRole());
+                    participanteSave.setUsuario(searchUser.get());
+                    participantes.add(participanteSave);
+                }
+            }
+            saveEvents.setParticipantes(participantes);
+        }
+        saveEvents.setProgramas(events.getProgramas());
         eventsRepository.save(saveEvents);
         return new ResponseEntity<>(saveEvents, HttpStatus.OK);
     }
@@ -53,6 +73,11 @@ public class EventosController {
     public ResponseEntity<?> getEvent(){
         List<Eventos> eventos = eventsRepository.findAll();
         return  new ResponseEntity<>(eventos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "getEventsById/{id}")
+    public ResponseEntity<?> getEventById(@PathVariable("id") int id){
+        return new ResponseEntity<>(eventsRepository.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "getEvents/{id}")
@@ -98,15 +123,23 @@ public class EventosController {
         return new ResponseEntity<>(eventosFiltered, HttpStatus.OK);
     }
 
-    @PostMapping("saveEmpleado")
-    public ResponseEntity<?> saveEmpleado(@RequestBody Empleados empleado){
-        Participantes newParticipante = new Participantes();
-        newParticipante.setId(empleado.getIdentificacion());
-        newParticipante.setNombreCompleto(empleado.getNombres());
-        newParticipante.setTipoRelacion(empleado.getTipoEmpleado().getNombre());
-        newParticipante.setEmail(empleado.getEmail());
+    @PostMapping("saveEmpleado/{nombreusuario}/{password}")
+   public ResponseEntity<?> saveEmpleado(@PathVariable("nombreusuario") String nombreusuario, @RequestBody Empleados empleado, @PathVariable("password") String password){
+        Usuarios newUsuario= new Usuarios();
+        newUsuario.setId(Integer.parseInt(empleado.getIdentificacion()));
+        newUsuario.setNombre(nombreusuario);
+       newUsuario.setPassword(password);
+        newUsuario.setRol("asistente");
+        newUsuario.setNombre(empleado.getNombres());
+        newUsuario.setTipoRelacion(empleado.getTipoEmpleado().getNombre());
+        newUsuario.setEmail(empleado.getEmail());
+        Ciudades ciudad = new Ciudades();
+        ciudad.setNombre(empleado.getLugarNacimiento().getNombre());
+       ciudad.setDepartamento(empleado.getLugarNacimiento().getDepartamento());
+       ciudad.getDepartamento().setPais(empleado.getLugarNacimiento().getDepartamento().getPais());
+       newUsuario.setCiudad(ciudad);
 
-        return ResponseEntity.ok(newParticipante);
+       return ResponseEntity.ok(newUsuario);
     }
 
 

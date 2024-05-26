@@ -1,31 +1,23 @@
 package icesi.edu.co.events.mongoDB.domain;
 
+import icesi.edu.co.events.postgresDB.domain.Usuarios;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 
 @Data
+@AllArgsConstructor
 public class Participantes {
 
     @Id
     private String id;
-    private String rol;
-    private String nombreUsuario;
-    private String nombreCompleto;
-    private String tipoRelacion;
-    private String email;
-
-    private Ciudades ciudad;
+    private Usuarios usuario;
+    private String role;
 
 
     public Participantes() {
     }
 
-    public Participantes(String id, String nombreUsuario, String nombreCompleto, String tipoRelacion, String email) {
-        this.id = id;
-        this.nombreUsuario = nombreUsuario;
-        this.nombreCompleto = nombreCompleto;
-        this.tipoRelacion = tipoRelacion;
-        this.email = email;
-    }
 }
