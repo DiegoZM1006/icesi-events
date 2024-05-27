@@ -16,13 +16,13 @@ public class UsuariosController {
     private final UsuariosRepository usuariosRepository;
 
     @PostMapping("{nombre}/{password}")
-    public boolean validateUser(@PathVariable String nombre, @PathVariable String password){
+    public Usuarios validateUser(@PathVariable String nombre, @PathVariable String password){
 
         Usuarios usuario1 = usuariosRepository.findByNombreUsuarioAndPassword(nombre, password);
         if (usuario1 == null){
-            return false;
+            return null;
         }else {
-            return true;
+            return usuario1;
         }
     }
 
