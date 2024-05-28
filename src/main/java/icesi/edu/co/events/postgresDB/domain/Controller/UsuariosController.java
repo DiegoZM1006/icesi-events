@@ -1,8 +1,11 @@
 package icesi.edu.co.events.postgresDB.domain.Controller;
 
+import icesi.edu.co.events.postgresDB.domain.Empleados;
 import icesi.edu.co.events.postgresDB.domain.Usuarios;
+import icesi.edu.co.events.postgresDB.domain.repository.EmpleadosRepository;
 import icesi.edu.co.events.postgresDB.domain.repository.UsuariosRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +17,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173/")
 public class UsuariosController {
 
+    @Autowired
     private final UsuariosRepository usuariosRepository;
+
+    @Autowired
+    private final EmpleadosRepository empleadosRepository;
 
     @PostMapping("{nombre}/{password}")
     public Usuarios validateUser(@PathVariable String nombre, @PathVariable String password){
@@ -45,6 +52,23 @@ public class UsuariosController {
         usuarioToSave.setRol(usuario.getRol());
         usuariosRepository.save(usuarioToSave);
         return ResponseEntity.ok(usuarioToSave);
+    }
+
+    @PostMapping("saveUsuarioEmpleado/{nombreUsuario}/{password}")
+    public ResponseEntity<?> saveUsuarioEmpleado(@PathVariable String nombreUsuario, @PathVariable String password, @RequestBody Empleados empleado) {
+
+        Usuarios usuario = new Usuarios();
+        usuario.setId(empleado.getIdentificacion());
+        usuario.setNombre(empleado.getNombres());
+        usuario.setEmail(empleado.getEmail());
+        usuario.setCiudad(empleado.getLugarNacimiento());
+        usuario.setTipoRelacion(empleado.getTipoEmpleado().getNombre());
+        usuario.setRol("VIEWER");
+        usuario.setNombreUsuario(nombreUsuario);
+        usuario.setPassword(password);
+        usuariosRepository.save(usuario);
+
+        return ResponseEntity.ok(usuario);
     }
 
 }
