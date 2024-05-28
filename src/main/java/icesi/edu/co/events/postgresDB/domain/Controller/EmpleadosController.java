@@ -1,8 +1,10 @@
 package icesi.edu.co.events.postgresDB.domain.Controller;
 
 import icesi.edu.co.events.postgresDB.domain.Empleados;
+import icesi.edu.co.events.postgresDB.domain.Usuarios;
 import icesi.edu.co.events.postgresDB.domain.repository.EmpleadosRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,14 +25,15 @@ public class EmpleadosController {
     }
 
     @GetMapping(value = "/{id}")
-    public Optional<Empleados> getOneEmpleados(@PathVariable("id") int id){
+    public Optional<Empleados> getOneEmpleados(@PathVariable("id") String id){
         Optional<Empleados> empleados = empleadosRepository.findById(id);
         return empleados;
     }
 
     @GetMapping(value = "/exists/{id}")
-    public boolean getOneEmpleadosTorF(@PathVariable("id") int id) {
+    public boolean getOneEmpleadosTorF(@PathVariable("id") String id) {
         return empleadosRepository.existsById(id);
     }
+
 
 }

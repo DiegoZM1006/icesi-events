@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface EmpleadosRepository extends JpaRepository<Empleados, Integer> {
+public interface EmpleadosRepository extends JpaRepository<Empleados, String> {
 
     List<Empleados> findAll();
 
-    Optional<Empleados> findById(Integer id);
+    Optional<Empleados> findById(String id);
 
-    boolean existsById(Integer id);
+    boolean existsById(String id);
     
 }

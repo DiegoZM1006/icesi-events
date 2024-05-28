@@ -3,6 +3,7 @@ package icesi.edu.co.events.postgresDB.domain.Controller;
 import icesi.edu.co.events.postgresDB.domain.Usuarios;
 import icesi.edu.co.events.postgresDB.domain.repository.UsuariosRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,4 +31,20 @@ public class UsuariosController {
     public List<Usuarios> getUsers(){
         return usuariosRepository.findAll();
     }
+
+    @PostMapping("saveUsuario")
+    public ResponseEntity<?> saveUsuario(@RequestBody Usuarios usuario) {
+        Usuarios usuarioToSave = new Usuarios();
+        usuarioToSave.setId(usuario.getId());
+        usuarioToSave.setPassword(usuario.getPassword());
+        usuarioToSave.setNombreUsuario(usuario.getNombreUsuario());
+        usuarioToSave.setNombre(usuario.getNombre());
+        usuarioToSave.setCiudad(usuario.getCiudad());
+        usuarioToSave.setEmail(usuario.getEmail());
+        usuarioToSave.setTipoRelacion(usuario.getTipoRelacion());
+        usuarioToSave.setRol(usuario.getRol());
+        usuariosRepository.save(usuarioToSave);
+        return ResponseEntity.ok(usuarioToSave);
+    }
+
 }

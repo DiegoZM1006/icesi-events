@@ -10,4 +10,5 @@ public interface UsuariosRepository extends JpaRepository<Usuarios, String> {
     Optional<Usuarios> findById(String id);
     Usuarios findByNombreUsuarioAndPassword(String nombre, String password);
 
+
 }
