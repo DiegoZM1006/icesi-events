@@ -28,6 +28,12 @@ public class ProgramasController {
         return  new ResponseEntity<>(programas, HttpStatus.OK);
     }
 
+    @GetMapping(value = "getPrograma/{id}")
+    public ResponseEntity<?> getPrograma(@PathVariable("id") String id){
+        Programas programa = programasRepository.findById(Integer.valueOf(id)).get();
+        return new ResponseEntity<>(programa, HttpStatus.OK);
+    }
+
     @GetMapping("getProgramasPorFacultades/{codigoFacultad}")
     public ResponseEntity<?> getProgramasPorFacultades(@PathVariable("codigoFacultad") int codigoFacultad) {
         List<Areas> areas = areasRepository.findAreasByCodigoFacultad(codigoFacultad);

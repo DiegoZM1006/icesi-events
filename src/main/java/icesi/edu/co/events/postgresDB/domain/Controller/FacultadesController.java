@@ -23,4 +23,10 @@ public class FacultadesController {
         List<Facultades> facultades = facultadesRepository.findAll();
         return  new ResponseEntity<>(facultades, HttpStatus.OK);
     }
+
+    @GetMapping(value = "getFacultad/{id}")
+    public ResponseEntity<?> getFacultad(@PathVariable("id") String id){
+        Facultades facultad = facultadesRepository.findById(Integer.valueOf(id)).get();
+        return new ResponseEntity<>(facultad, HttpStatus.OK);
+    }
 }

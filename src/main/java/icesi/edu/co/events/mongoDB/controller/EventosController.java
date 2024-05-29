@@ -99,29 +99,40 @@ public class EventosController {
     }
 
     public List<Eventos> getEventById2(@PathVariable("id") String id){
-        return eventsRepository.findAll().stream()
-                .filter(evento -> evento.getParticipantes().stream().anyMatch(user -> user.getId() == id))
-                .collect(Collectors.toList());
+        List<Eventos> eventos = eventsRepository.findAll();
+        List<Eventos> eventosFiltered = new ArrayList<>();
+
+        for (Eventos evento : eventos) {
+            for (Participantes idUser : evento.getParticipantes()) {
+                if (Objects.equals(idUser.getId(), id)) {
+                    eventosFiltered.add(evento);
+                }
+            }
+        }
+        return eventosFiltered;
     }
 
     @PostMapping("getCategoriasEvents/{id}")
     public ResponseEntity<?> getCategorias(@PathVariable("id") String id){
         List<Eventos> eventos = eventsRepository.findAll();
         List<Eventos> eventosInscritos = getEventById2(id);
+        List<Eventos> eventosFiltered = new ArrayList<>();
 
-        Set<Eventos> eventosFiltered = eventos.stream()
-                .filter(allEvents -> eventosInscritos.stream()
-                        .anyMatch(suscribeEvents -> Arrays.stream(allEvents.getCategoria())
-                                .anyMatch(categoriaAllEvents ->
-                                        Arrays.stream(suscribeEvents.getCategoria())
-                                                .anyMatch(categoriaSuscribeEvents ->
-                                                        categoriaAllEvents.equals(categoriaSuscribeEvents)
-                                                                && !Objects.equals(allEvents.getId(), suscribeEvents.getId())
-                                                )
-                                )
-                        )
-                ).collect(Collectors.toSet());
-
+        for (Eventos allEvents : eventos) {
+            String[] categoriasAllEvents = allEvents.getCategoria();
+            for (Eventos suscribeEvents : eventosInscritos) {
+                String[] categoriasSuscribeEvents = suscribeEvents.getCategoria();
+                for (String categoriaAllEvents : categoriasAllEvents) {
+                    for (String categoriaSuscribeEvents : categoriasSuscribeEvents) {
+                        if (categoriaAllEvents.equals(categoriaSuscribeEvents) && !Objects.equals(allEvents.getId(), suscribeEvents.getId())) {
+                            if(!eventosFiltered.contains(allEvents)){
+                                eventosFiltered.add(allEvents);
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return new ResponseEntity<>(eventosFiltered, HttpStatus.OK);
     }
 
